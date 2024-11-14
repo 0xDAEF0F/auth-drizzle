@@ -6,3 +6,8 @@ export const usersTable = sqliteTable("user", {
   email: text().notNull().unique(),
   password: text().notNull(),
 });
+
+export type UserPayload = Omit<
+  typeof usersTable.$inferSelect,
+  "password" | "name"
+>;

@@ -1,10 +1,10 @@
 "use client";
 
-import { signup } from "../actions/auth";
+import { register } from "../actions/auth";
 import { useActionState } from "react";
 
-export default function Page() {
-  const [state, action] = useActionState(signup, undefined);
+export default function Register() {
+  const [state, action, isSubmitting] = useActionState(register, undefined);
 
   return (
     <div className="flex h-screen flex-col items-center justify-center">
@@ -20,6 +20,7 @@ export default function Page() {
             <label htmlFor="email">Email</label>
             <input
               className="rounded border border-black p-2"
+              required
               type="email"
               name="email"
               id="email"
@@ -32,6 +33,7 @@ export default function Page() {
             <label htmlFor="password">Password</label>
             <input
               className="rounded border border-black p-2"
+              required
               type="password"
               name="password"
               id="password"
@@ -51,7 +53,8 @@ export default function Page() {
           </div>
           <button
             type="submit"
-            className="flex w-[60%] justify-center rounded bg-blue-600 px-5 py-2 text-white"
+            disabled={isSubmitting}
+            className="flex w-[60%] justify-center rounded bg-blue-600 px-5 py-2 text-white disabled:bg-gray-500"
           >
             Register
           </button>
