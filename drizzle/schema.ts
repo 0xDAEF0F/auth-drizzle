@@ -11,3 +11,11 @@ export type UserPayload = Omit<
   typeof usersTable.$inferSelect,
   "password" | "name"
 >;
+
+export const booksTable = sqliteTable("book", {
+  isbn: text().primaryKey(),
+  title: text().notNull(),
+  author: text().notNull(),
+  genre: text().notNull(),
+  publisher: text().notNull(),
+});

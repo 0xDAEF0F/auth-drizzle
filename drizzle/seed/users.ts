@@ -1,5 +1,5 @@
-import { usersTable } from "./schema";
-import { db } from "./db";
+import { usersTable } from "../schema";
+import { db } from "../db";
 import { hashPassword } from "@/utils/password";
 import { eq } from "drizzle-orm";
 
