@@ -19,7 +19,7 @@ export function Messages({ messages }: Props) {
     ...state,
     {
       content: optimisticValue,
-      id: state[state.length - 1].id + 1,
+      id: state.length > 0 ? state[state.length - 1].id + 1 : 1,
       pending: true,
     },
   ]);

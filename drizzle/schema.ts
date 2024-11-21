@@ -1,7 +1,7 @@
-import { int, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { pgTable, text, serial } from "drizzle-orm/pg-core";
 
-export const usersTable = sqliteTable("user", {
-  id: int().primaryKey({ autoIncrement: true }),
+export const usersTable = pgTable("user", {
+  id: serial().primaryKey(),
   name: text(),
   email: text().notNull().unique(),
   password: text().notNull(),
@@ -12,7 +12,7 @@ export type UserPayload = Omit<
   "password" | "name"
 >;
 
-export const booksTable = sqliteTable("book", {
+export const booksTable = pgTable("book", {
   isbn: text().primaryKey(),
   title: text().notNull(),
   author: text().notNull(),
@@ -20,7 +20,7 @@ export const booksTable = sqliteTable("book", {
   publisher: text().notNull(),
 });
 
-export const messagesTable = sqliteTable("message", {
-  id: int().primaryKey({ autoIncrement: true }),
+export const messagesTable = pgTable("message", {
+  id: serial().primaryKey(),
   content: text().notNull(),
 });
