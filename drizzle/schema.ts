@@ -19,3 +19,8 @@ export const booksTable = sqliteTable("book", {
   genre: text().notNull(),
   publisher: text().notNull(),
 });
+
+export const messagesTable = sqliteTable("message", {
+  id: int().primaryKey({ autoIncrement: true }),
+  content: text().notNull(),
+});
