@@ -57,6 +57,7 @@ export function Books({ books: books_ }: Props) {
             })}
             href={`/books/${book.isbn}`}
             key={book.isbn}
+            prefetch
           >
             <span>{idx + 1}.</span>
             <p>Book Title: {book.title}</p>
