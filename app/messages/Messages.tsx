@@ -1,9 +1,10 @@
 "use client";
 
 import { messagesTable } from "@/drizzle/schema";
-import { useOptimistic } from "react";
+import { useOptimistic, useRef } from "react";
 import { sendMessage } from "./sendMessage.action";
-import { cn } from "clsx-for-tailwind";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 type Message = typeof messagesTable.$inferSelect;
 
@@ -12,6 +13,7 @@ type Props = {
 };
 
 export function Messages({ messages }: Props) {
+  const inputRef = useRef<HTMLFormElement | null>(null);
   const [optimisticMsgs, addOptimisticMsg] = useOptimistic<
     (Message & { pending?: boolean })[],
     string
@@ -27,20 +29,28 @@ export function Messages({ messages }: Props) {
   const handleMessage = async (formData: FormData) => {
     const msg = formData.get("message") as string;
     addOptimisticMsg(msg);
+    inputRef.current?.reset();
     await sendMessage(msg);
   };
 
   return (
-    <div>
-      <h1>Messages</h1>
-      {optimisticMsgs.map((msg) => (
-        <p className={cn([msg.pending && "text-red-500"])} key={msg.id}>
-          {msg.content}
-        </p>
-      ))}
-      <form action={handleMessage}>
-        <input type="text" name="message" />
-        <button type="submit">Send message</button>
+    <div className="space-y-2 px-3">
+      <h1 className="text-2xl">Messages</h1>
+      <div>
+        {optimisticMsgs.map((msg) => (
+          <p key={msg.id}>
+            {msg.content} {msg.pending && <small> (sending...)</small>}
+          </p>
+        ))}
+      </div>
+      <form ref={inputRef} className="space-y-2" action={handleMessage}>
+        <Input
+          className="w-1/3"
+          type="text"
+          name="message"
+          placeholder="Enter message"
+        />
+        <Button type="submit">Send Message</Button>
       </form>
     </div>
   );
