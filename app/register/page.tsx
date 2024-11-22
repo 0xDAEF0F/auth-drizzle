@@ -1,8 +1,5 @@
-import { checkLoggedIn } from "../loaders/checkLoggedIn";
 import Register from "./Register";
 
-export default async function Page() {
-  await checkLoggedIn();
-
+export default function Page() {
   return <Register />;
 }
