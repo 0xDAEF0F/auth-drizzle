@@ -5,7 +5,8 @@ import { booksTable } from "@/drizzle/schema";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { cn } from "clsx-for-tailwind";
 import Link from "next/link";
-import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useRef } from "react";
 import { useInView } from "react-intersection-observer";
 
 type Props = {
@@ -40,6 +41,8 @@ export function Books({ books: books_ }: Props) {
       pageParams: [20],
     },
   });
+  const timeoutRef = useRef<Record<number, Timer>>({});
+  const router = useRouter();
 
   useEffect(() => {
     if (!inView || !hasNextPage) return;
@@ -57,7 +60,14 @@ export function Books({ books: books_ }: Props) {
             })}
             href={`/books/${book.isbn}`}
             key={book.isbn}
-            prefetch
+            onMouseEnter={() => {
+              timeoutRef.current[idx] = setTimeout(() => {
+                router.prefetch(`/books/${book.isbn}`);
+              }, 200);
+            }}
+            onMouseLeave={() => {
+              clearTimeout(timeoutRef.current[idx]);
+            }}
           >
             <span>{idx + 1}.</span>
             <p>Book Title: {book.title}</p>
