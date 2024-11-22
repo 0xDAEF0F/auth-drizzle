@@ -41,7 +41,7 @@ export function Books({ books: books_ }: Props) {
       pageParams: [20],
     },
   });
-  const timeoutRef = useRef<Record<number, Timer>>({});
+  const timeoutRef = useRef<Record<number, ReturnType<typeof setTimeout>>>({});
   const router = useRouter();
 
   useEffect(() => {
