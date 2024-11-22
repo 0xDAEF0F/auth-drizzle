@@ -60,6 +60,7 @@ export function Books({ books: books_ }: Props) {
             })}
             href={`/books/${book.isbn}`}
             key={book.isbn}
+            prefetch={false}
             onMouseEnter={() => {
               timeoutRef.current[idx] = setTimeout(() => {
                 router.prefetch(`/books/${book.isbn}`);
