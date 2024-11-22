@@ -1,8 +1,12 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { decrypt } from "../lib/session";
-import { UserPayload } from "@/drizzle/schema";
-import { JWTPayload } from "jose";
+import { z } from "zod";
+
+const userSchema = z.object({
+  id: z.number().min(1),
+  email: z.string().email(),
+});
 
 export async function getUser() {
   const jwt = (await cookies()).get("jwt")?.value;
@@ -10,5 +14,5 @@ export async function getUser() {
 
   if (!jwt || !payload) redirect("/login");
 
-  return payload as JWTPayload & UserPayload;
+  return userSchema.parse(payload);
 }
