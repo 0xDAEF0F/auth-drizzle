@@ -2,6 +2,8 @@ import { db } from "@/drizzle/db";
 import { Messages } from "./Messages";
 import { Suspense } from "react";
 
+export const dynamic = "force-dynamic";
+
 export default function page() {
   return (
     <Suspense fallback={<p>messages...</p>}>
